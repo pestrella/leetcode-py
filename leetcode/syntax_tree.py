@@ -1,6 +1,11 @@
-def syntax_tree(s, multiply=[], add=[]):
-    if len(s) > 0:
-        c = s[0]
+from functools import reduce
+
+def syntax_tree(s):
+    """Can parse simple syntax like `4+2*3`g"""
+
+    add = []
+    multiply = []
+    for c in s:
         if c == '+':
             add.append(multiply)
             multiply = []
@@ -11,9 +16,9 @@ def syntax_tree(s, multiply=[], add=[]):
         else:
             multiply.append(ord(c) - 48)
 
-        return syntax_tree(s[1:], multiply=multiply, add=add)
-    else:
-        if len(multiply) > 0:
-            add.append(multiply)
+    if len(multiply) > 0:
+        add.append(multiply)
 
-        return add
+    return reduce(lambda n, m: n + m
+                  , list(map(lambda nums: reduce(lambda n, m: n * m, nums)
+                             , add)))

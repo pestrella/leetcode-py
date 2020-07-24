@@ -1,24 +1,29 @@
 from functools import reduce
 
 def syntax_tree(s):
-    """Can parse simple syntax like `4+2*3`g"""
+    """Can parse simple syntax like `4+2*3`"""
 
-    add = []
-    multiply = []
+    additions = []
+    multiplications = []
+
     for c in s:
         if c == '+':
-            add.append(multiply)
-            multiply = []
+            additions.append(multiplications)
+            multiplications = []
 
         elif c == '*':
             pass
 
         else:
-            multiply.append(ord(c) - 48)
+            multiplications.append(ord(c) - 48)
 
-    if len(multiply) > 0:
-        add.append(multiply)
+    if len(multiplications) > 0:
+        additions.append(multiplications)
 
-    return reduce(lambda n, m: n + m
-                  , list(map(lambda nums: reduce(lambda n, m: n * m, nums)
-                             , add)))
+    return sum(list(map(multiply, additions)))
+
+def multiply(nums):
+    return reduce(lambda n, m: n * m, nums)
+
+def sum(nums):
+    return reduce(lambda n, m: n + m, nums)

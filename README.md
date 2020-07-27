@@ -1,0 +1,3 @@
+# Leetcode
+
+Fun with Python :)
